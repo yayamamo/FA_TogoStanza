@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Fa</title>
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <link rel="stylesheet" href="/stanza/assets/fa/css/theme.default.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    {{adjust_iframe_height_script}}
+    <script src="/stanza/assets/fa/js/jquery.tablesorter.js"></script>
+  </head>
+
+  <body>
+   <table id="faTable" class="tablesorter">
+    <thead><tr><th>Concept</th><th>Count</th><th>Title</th></tr></thead>
+    <tbody>
+    {{#each articles}}
+      <tr><td><a href="{{jcode}}">{{lb}}</a></td><td>{{cnt}}</td><td><a href="{{url}}">{{title}}</a></td></tr>
+    {{/each}}
+    </tbody></table>
+  </body>
+  <script>
+$(function(){
+  $("#faTable").tablesorter();
+});
+  </script>
+</html>

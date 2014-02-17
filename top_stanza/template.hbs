@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Top</title>
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    {{adjust_iframe_height_script}}
+    <script>
+    var topmap = {
+    "A": "生体構造",
+    "B": "生物種",
+    "C": "疾患",
+    "D": "化合物または薬",
+    "E": "分析、診断、治療に関する技術または装置",
+    "F": "精神医学または心理学",
+    "G": "現象または作用",
+    "H": "分野もしくは職業",
+    "I": "人類学、教育、社会または社会現象",
+    "J": "技術、産業、農業",
+    "K": "人間性",
+    "L": "情報科学",
+    "M": "特定集団",
+    "N": "保健",
+    "V": "出版関係",
+    "Z": "地理",
+    };
+    var last="";
+    var m=function(a){
+      if(last != a){
+        if(last != ""){
+          document.write("</ul>");
+        }
+        document.write("<h3>" + topmap[a] + "</h3>");
+        document.write("<ul>");
+      }
+      last=a;
+    };
+    </script>
+  </head>
+
+  <body>
+    <h1>新着論文レビューをMeSHとLSDを用いて検索</h1>
+    {{#each treetop}}
+      <script>m('{{top}}');</script>
+      <li><a href="{{cpt}}">{{jlb}}</a></li>
+    {{/each}}
+    </ul>
+  </body>
+</html>
