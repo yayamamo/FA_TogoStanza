@@ -7,7 +7,7 @@ prefix owl: <http://www.w3.org/2002/07/owl#>
 # <http://bioonto.de/mesh.owl#A01>
 # http://sv01.dbcls.jp:9292/stanza/fa?cpt=G05
 
-select (substr(str(?uri),28,1) AS ?top) (concat("http://sv01.dbcls.jp:9292/stanza/fa?cpt=",substr(str(?uri),28)) AS ?cpt) (str(?et) as ?elb) (str(?l) as ?jlb) {
+select (substr(str(?uri),28,1) AS ?top) (concat("/stanza/fa?cpt=",substr(str(?uri),28)) AS ?cpt) (str(?et) as ?elb) (str(?l) as ?jlb) {
 ?uri rdfs:label ?et .
 ?s rdfs:subClassOf ?uri .
 ?s2 owl:sameAs ?s ;

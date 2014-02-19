@@ -11,9 +11,19 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
     {{adjust_iframe_height_script}}
     <script src="/stanza/assets/fa/js/jquery.tablesorter.js"></script>
+    <style>
+    #cptchild ul {list-style-type:none;margin:0;padding:0;overflow:hidden;}
+    #cptchild li {float:left;margin:0 10pt 0 0}
+    </style>
   </head>
 
   <body>
+   <h1>{{concept.jcpt}}</h1>
+   <div id="cptchild"><ul>
+   {{#each children}}
+     <li><a href="{{parent}}">{{jcpt}}</a></li>
+   {{/each}}
+   </ul></div>
    <table id="faTable" class="tablesorter">
     <thead><tr><th>Concept</th><th>Count</th><th>Title</th></tr></thead>
     <tbody>

@@ -1,6 +1,6 @@
 class FaStanza < TogoStanza::Stanza::Base
   property :articles do |cpt|
-   query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL.strip_heredoc)
+   query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q1.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
@@ -32,6 +32,38 @@ UNION
 }
 FILTER (lang($l) = "ja")
 } group by ?jcode ?l ?st ?url order by desc (?cnt)
-SPARQL
+SPARQL_Q1
+  end
+
+  property :concept do |cpt|
+    result = query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q2.strip_heredoc)
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+select (str(?l) AS ?jcpt) {
+   ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
+   ?s2 owl:sameAs ?s ;
+       rdfs:label ?l .
+  FILTER(lang(?l) = "ja")
+  }
+SPARQL_Q2
+result.first
+  end
+
+  property :children do |cpt|
+    query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q3.strip_heredoc)
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa?cpt=",substr(str(?upper),28)) AS ?parent) {
+   ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
+   ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
+       rdfs:label ?l .
+   ?jcode <http://purl.jp/bio/10/lsd/ontology/201209#MeSHUniqueID> ?s2 ;
+          a <http://purl.jp/bio/10/lsd/ontology/201209#JapaneseCode> .
+  [] <http://purl.org/ao/hasTopic> ?jcode .
+  FILTER(lang(?l) = "ja")
+  }
+SPARQL_Q3
   end
 end
