@@ -1,6 +1,8 @@
 class FaStanza < TogoStanza::Stanza::Base
+  #endpoint = 'http://ep1.dbcls.jp:5820/mesh_lsd_fa/query'
+  endpoint = 'http://tm.dbcls.jp/fa/mesh_lsd_fa/query'
   property :articles do |cpt|
-    query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q1.strip_heredoc)
+    query(endpoint, <<-SPARQL_Q1.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
@@ -37,7 +39,7 @@ SPARQL_Q1
   end
 
   property :concept do |cpt|
-    result = query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q2.strip_heredoc)
+    result = query(endpoint, <<-SPARQL_Q2.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
@@ -52,7 +54,7 @@ result.first
   end
 
   property :children do |cpt|
-    query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL_Q3.strip_heredoc)
+    query(endpoint, <<-SPARQL_Q3.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
