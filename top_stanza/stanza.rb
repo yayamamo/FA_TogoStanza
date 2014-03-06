@@ -1,14 +1,16 @@
 class TopStanza < TogoStanza::Stanza::Base
   property :treetop do
     #query('http://ep1.dbcls.jp:5820/mesh_lsd_fa/query', <<-SPARQL.strip_heredoc)
-    query('http://tm.dbcls.jp/fa/mesh_lsd_fa/query', <<-SPARQL.strip_heredoc)
+    query('http://ep1.dbcls.jp:8890/sparql', <<-SPARQL.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
 # <http://bioonto.de/mesh.owl#A01>
 # http://sv01.dbcls.jp:9292/stanza/fa?cpt=G05
 
-select (substr(str(?uri),28,1) AS ?top) (concat("/stanza/fa?cpt=",substr(str(?uri),28)) AS ?cpt) (str(?et) as ?elb) (str(?l) as ?jlb) {
+select (substr(str(?uri),28,1) AS ?top) (concat("/stanza/fa/",substr(str(?uri),28)) AS ?cpt) (str(?et) as ?elb) (str(?l) as ?jlb) 
+FROM <http://purl.jp/bio/10/meshlsd>
+{
 ?uri rdfs:label ?et .
 ?s rdfs:subClassOf ?uri .
 ?s2 owl:sameAs ?s ;

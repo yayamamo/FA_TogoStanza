@@ -1,13 +1,16 @@
 class FaStanza < TogoStanza::Stanza::Base
   #endpoint = 'http://ep1.dbcls.jp:5820/mesh_lsd_fa/query'
-  endpoint = 'http://tm.dbcls.jp/fa/mesh_lsd_fa/query'
+  #endpoint = 'http://tm.dbcls.jp/fa/mesh_lsd_fa/query'
+  endpoint = 'http://ep1.dbcls.jp:8890/sparql'
   property :articles do |cpt|
     query(endpoint, <<-SPARQL_Q1.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
-select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url {
+select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
+FROM <http://purl.jp/bio/10/meshlsd>
+{
   {
     select distinct ?jcode ?l {
       ?s rdfs:subClassOf* <http://bioonto.de/mesh.owl##{cpt}> .
@@ -43,7 +46,9 @@ SPARQL_Q1
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
-select (str(?l) AS ?jcpt) {
+select (str(?l) AS ?jcpt)
+FROM <http://purl.jp/bio/10/meshlsd>
+{
    ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
    ?s2 owl:sameAs ?s ;
        rdfs:label ?l .
@@ -59,7 +64,9 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
-select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa?cpt=",substr(str(?upper),28)) AS ?parent) {
+select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28)) AS ?parent)
+FROM <http://purl.jp/bio/10/meshlsd>
+{
    ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
    ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
        rdfs:label ?l .

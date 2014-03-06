@@ -1,3 +1,21 @@
+PATH
+  remote: ./fa_stanza
+  specs:
+    fa_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ./gene_feature_stanza
+  specs:
+    gene_feature_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ./top_stanza
+  specs:
+    top_stanza (0.0.1)
+      togostanza
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -58,7 +76,7 @@ GEM
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
-    togostanza (1.0.4)
+    togostanza (1.0.5)
       activesupport
       flavour_saver
       haml
@@ -80,5 +98,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  fa_stanza!
+  gene_feature_stanza!
   togostanza
+  top_stanza!
   unicorn
