@@ -9,7 +9,7 @@ prefix owl: <http://www.w3.org/2002/07/owl#>
 # http://sv01.dbcls.jp:9292/stanza/fa?cpt=G05
 
 select (substr(str(?uri),28,1) AS ?top) (concat("/stanza/fa/",substr(str(?uri),28)) AS ?cpt) (str(?et) as ?elb) (str(?l) as ?jlb) 
-FROM <http://purl.jp/bio/10/meshlsd>
+FROM <http://purl.jp/bio/10/lsd2mesh>
 {
 ?uri rdfs:label ?et .
 ?s rdfs:subClassOf ?uri .

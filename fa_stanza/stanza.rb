@@ -9,9 +9,8 @@ prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
 select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
-FROM <http://purl.jp/bio/10/meshlsd>
 {
-  {
+  graph <http://purl.jp/bio/10/lsd2mesh> {
     select distinct ?jcode ?l {
       ?s rdfs:subClassOf* <http://bioonto.de/mesh.owl##{cpt}> .
       ?s2 owl:sameAs ?s ;
@@ -22,6 +21,7 @@ FROM <http://purl.jp/bio/10/meshlsd>
     FILTER(lang(?l) = "ja")
     }
   }
+  graph <http://purl.jp/bio/10/lsd2fa> {
   [] <http://purl.org/ao/hasTopic> ?jcode ;
      <http://purl.org/ao/foaf/annotatesDocument> ?d .
   {
@@ -37,6 +37,7 @@ FROM <http://purl.jp/bio/10/meshlsd>
       BIND (?d AS ?url)
     }
   }
+  }
 } group by ?jcode ?l ?st ?url order by desc (?cnt)
 SPARQL_Q1
   end
@@ -46,13 +47,14 @@ SPARQL_Q1
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
-select (str(?l) AS ?jcpt)
-FROM <http://purl.jp/bio/10/meshlsd>
+select (str(?l) AS ?jcpt){
+graph <http://purl.jp/bio/10/lsd2mesh>
 {
    ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
    ?s2 owl:sameAs ?s ;
        rdfs:label ?l .
   FILTER(lang(?l) = "ja")
+}
 }
 SPARQL_Q2
 result.first
@@ -64,8 +66,8 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
-select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28)) AS ?parent)
-FROM <http://purl.jp/bio/10/meshlsd>
+select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28)) AS ?parent) {
+graph <http://purl.jp/bio/10/lsd2mesh>
 {
    ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
    ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
@@ -74,6 +76,7 @@ FROM <http://purl.jp/bio/10/meshlsd>
           a lsd:JapaneseCode .
   [] <http://purl.org/ao/hasTopic> ?jcode .
   FILTER(lang(?l) = "ja")
+}
 }
 SPARQL_Q3
   end
