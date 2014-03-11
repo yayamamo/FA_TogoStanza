@@ -48,13 +48,13 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
 select (str(?l) AS ?jcpt){
-graph <http://purl.jp/bio/10/lsd2mesh>
-{
-   ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
-   ?s2 owl:sameAs ?s ;
-       rdfs:label ?l .
-  FILTER(lang(?l) = "ja")
-}
+  graph <http://purl.jp/bio/10/lsd2mesh>
+  {
+    ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
+    ?s2 owl:sameAs ?s ;
+        rdfs:label ?l .
+    FILTER(lang(?l) = "ja")
+  }
 }
 SPARQL_Q2
 result.first
@@ -67,16 +67,18 @@ prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
 select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28)) AS ?parent) {
-graph <http://purl.jp/bio/10/lsd2mesh>
-{
-   ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
-   ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
+  graph <http://purl.jp/bio/10/lsd2mesh>
+  {
+    ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
+    ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
        rdfs:label ?l .
-   ?jcode lsd:MeSHUniqueID ?s2 ;
-          a lsd:JapaneseCode .
-  [] <http://purl.org/ao/hasTopic> ?jcode .
-  FILTER(lang(?l) = "ja")
-}
+    ?jcode lsd:MeSHUniqueID ?s2 ;
+       a lsd:JapaneseCode .
+    FILTER(lang(?l) = "ja")
+  }
+  graph <http://purl.jp/bio/10/lsd2fa> {
+    [] <http://purl.org/ao/hasTopic> ?jcode .
+  }
 }
 SPARQL_Q3
   end
