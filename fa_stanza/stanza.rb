@@ -72,7 +72,8 @@ select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28))
     ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
     ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
        rdfs:label ?l .
-    ?jcode lsd:MeSHUniqueID ?s2 ;
+    ?z rdfs:subClassOf* ?upper.
+    ?jcode lsd:MeSHUniqueID [owl:sameAs ?z] ;
        a lsd:JapaneseCode .
     FILTER(lang(?l) = "ja")
   }
