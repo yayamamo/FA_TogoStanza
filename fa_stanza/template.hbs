@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Fa</title>
+    <title>{{concept.jcpt}} [{{current}}]</title>
     {{#each css_uri}}
     <link rel="stylesheet" href="{{this}}" />
     {{/each}}
@@ -18,7 +18,7 @@
   </head>
 
   <body>
-   <h1>{{concept.jcpt}}</h1>
+   <h1>{{concept.jcpt}} [{{current}}]</h1>
    <div id="cptchild"><ul>
    {{#each children}}
      <li><a href="{{parent}}">{{jcpt}}</a></li>

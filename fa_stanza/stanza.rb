@@ -12,8 +12,7 @@ select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
 {
   graph <http://purl.jp/bio/10/lsd2mesh> {
     select distinct ?jcode ?l {
-      ?s rdfs:subClassOf* <http://bioonto.de/mesh.owl##{cpt}> .
-      ?s2 owl:sameAs ?s ;
+      ?s2 owl:sameAs/rdfs:subClassOf+ <http://bioonto.de/mesh.owl##{cpt}> ;
         a lsd:MeSH-UniqueID .
       ?jcode lsd:MeSHUniqueID ?s2 ;
         a lsd:JapaneseCode ;
@@ -38,7 +37,7 @@ select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
     }
   }
   }
-} group by ?jcode ?l ?st ?url order by desc (?cnt)
+} group by ?jcode ?l ?st ?url order by desc (?cnt) offset 0 limit 200
 SPARQL_Q1
   end
 
@@ -57,7 +56,7 @@ select (str(?l) AS ?jcpt){
   }
 }
 SPARQL_Q2
-result.first
+    result.first
   end
 
   property :children do |cpt|
@@ -70,17 +69,19 @@ select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28))
   graph <http://purl.jp/bio/10/lsd2mesh>
   {
     ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
-    ?s2 owl:sameAs [rdfs:subClassOf ?upper] ;
+    [] owl:sameAs/rdfs:subClassOf ?upper ;
        rdfs:label ?l .
-    ?z rdfs:subClassOf* ?upper.
-    ?jcode lsd:MeSHUniqueID [owl:sameAs ?z] ;
-       a lsd:JapaneseCode .
+    ?jcode lsd:MeSHUniqueID/owl:sameAs/rdfs:subClassOf+ ?upper .
     FILTER(lang(?l) = "ja")
   }
   graph <http://purl.jp/bio/10/lsd2fa> {
     [] <http://purl.org/ao/hasTopic> ?jcode .
   }
-}
+} ORDER BY ?upper
 SPARQL_Q3
+  end
+
+  property :current do |cpt|
+    cpt
   end
 end
