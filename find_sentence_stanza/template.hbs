@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Find Sentence</title>
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    {{adjust_iframe_height_script}}
+  </head>
+
+  <body>
+    <h1>用言「{{yogen}}」にかかる言葉が「{{kakuhead}}」である文の一覧</h1>
+    <ul id="stcs">
+    {{#each sentence}}
+    <li><a href="{{stc}}">{{sentence}}</li>
+    {{/each}}
+    </ul>
+  </body>
+  <script type="text/javascript">
+$(function () {
+  var arr = [ '{{yogen}}', '{{kakuhead}}' ];
+  var str;
+  $.each(arr, function(i) {
+    str = $('#stcs').html().replace(new RegExp( arr[i], 'g' ), '<mark>' + arr[i] + '</mark>');
+    $('#stcs').html(str);
+  });
+});
+  </script>
+</html>
