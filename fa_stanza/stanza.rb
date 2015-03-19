@@ -1,7 +1,5 @@
 class FaStanza < TogoStanza::Stanza::Base
-  #endpoint = 'http://ep1.dbcls.jp:5820/mesh_lsd_fa/query'
-  #endpoint = 'http://tm.dbcls.jp/fa/mesh_lsd_fa/query'
-  endpoint = 'http://ep1.dbcls.jp:8890/sparql'
+  endpoint = 'http://ep1.dbcls.jp:18890/sparql'
   property :articles do |cpt|
     query(endpoint, <<-SPARQL_Q1.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -46,11 +44,10 @@ SPARQL_Q1
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 
-select (str(?l) AS ?jcpt){
+select (str(?l) AS ?jcpt) (str(?s2) AS ?dmh) {
   graph <http://purl.jp/bio/10/lsd2mesh>
   {
-    ?s ?p <http://bioonto.de/mesh.owl##{cpt}> .
-    ?s2 owl:sameAs ?s ;
+    ?s2 owl:sameAs/rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> ;
         rdfs:label ?l .
     FILTER(lang(?l) = "ja")
   }
@@ -65,20 +62,38 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
-select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",substr(str(?upper),28)) AS ?parent) {
+select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",?concept) AS ?parent) {
   graph <http://purl.jp/bio/10/lsd2mesh>
   {
     ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
     [] owl:sameAs/rdfs:subClassOf ?upper ;
        rdfs:label ?l .
     ?jcode lsd:MeSHUniqueID/owl:sameAs/rdfs:subClassOf+ ?upper .
-    FILTER(lang(?l) = "ja")
+    BIND(substr(str(?upper),28) AS ?concept)
+    FILTER(contains(?concept,".") && lang(?l) = "ja")
   }
   graph <http://purl.jp/bio/10/lsd2fa> {
     [] <http://purl.org/ao/hasTopic> ?jcode .
   }
 } ORDER BY ?upper
 SPARQL_Q3
+  end
+
+  property :ancestor do |cpt|
+    query(endpoint, <<-SPARQL_Q4.strip_heredoc)
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+select ?c (substr(str(?u),28) AS ?ac) (str(?l) AS ?lb) {
+  graph <http://purl.jp/bio/10/lsd2mesh>
+  {
+    <http://bioonto.de/mesh.owl##{cpt}> rdfs:subClassOf+ ?u.
+    ?c owl:sameAs/rdfs:subClassOf ?u ;
+       rdfs:label ?l .
+    FILTER(lang(?l) = "ja")
+  }
+} ORDER BY ?u
+SPARQL_Q4
   end
 
   property :current do |cpt|

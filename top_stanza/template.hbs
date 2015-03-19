@@ -34,20 +34,43 @@
         if(last != ""){
           document.write("</ul>");
         }
-        document.write("<h3>" + topmap[a] + "</h3>");
+        document.write("<h3><a style='color:black' name='" + a + "'>" + topmap[a] + "</a></h3>");
         document.write("<ul>");
       }
       last=a;
     };
     </script>
+    <style>
+    h1 {border-style: dotted; border-width: 0 0 2pt 0; margin:10pt 0 0 3pt; padding: 0 0 0 7pt}
+    </style>
   </head>
 
   <body>
     <h1>新着論文レビューをMeSHとLSDを用いて検索</h1>
+    <div class="toc">
+    <h2>最上位概念</h2>
+    <ul style="list-style-type: none; margin-left:3pt">
+    <li><a href="#A">生体構造</a></li>
+    <li><a href="#B">生物種</a></li>
+    <li><a href="#C">疾患</a></li>
+    <li><a href="#D">化合物または薬</a></li>
+    <li><a href="#E">分析、診断、治療に関する技術または装置</a></li>
+    <li><a href="#F">精神医学または心理学</a></li>
+    <li><a href="#G">現象または作用</a></li>
+    <li><a href="#H">分野もしくは職業</a></li>
+    <li><a href="#I">人類学、教育、社会または社会現象</a></li>
+    <li><a href="#L">情報科学</a></li>
+    <li><a href="#N">保健</a></li>
+    </ul>
+    <div style="margin:5pt"><hr /><p>[ <a href="/lodestar/sparql">SPARQL検索</a> ]</p></div>
+    </div>
+    <div>
     {{#each treetop}}
       <script>m('{{top}}');</script>
       <li><a href="{{cpt}}">{{jlb}}</a></li>
     {{/each}}
     </ul>
+    </div>
+    <p style="margin:20pt 0 20pt 15pt">This service is provided by <a href="http://dbcls.rois.ac.jp">DBCLS</a>.</p>
   </body>
 </html>

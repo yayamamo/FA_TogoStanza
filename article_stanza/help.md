@@ -1,7 +1,7 @@
-Gene Feature
-============
+Article
+=======
 
-これはサンプルスタンザです。
+TODO: Write a stanza description
 
 ## Parameters:
 
@@ -19,4 +19,4 @@ Gene Feature
 
 The above `<div>` will automatically embed the following Stanza in your HTML page.
 
-<div data-stanza="/stanza/gene_feature"></div>
+<div data-stanza="/stanza/article"></div>

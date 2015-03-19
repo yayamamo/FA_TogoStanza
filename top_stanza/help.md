@@ -1,15 +1,11 @@
 Top
 ===
 
-TODO: Write a stanza description
+トップページでパラメータは不要。
 
 ## Parameters:
 
-(* = required)
-
-| Name             | Description                         |
-|------------------|-------------------------------------|
-| *data-stanza-foo | TODO: Write a parameter description |
+なし
 
 ## Sample:
 

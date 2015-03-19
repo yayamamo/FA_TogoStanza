@@ -1,7 +1,7 @@
 Fa
 ==
 
-TODO: Write a stanza description
+引数で与えられたMeSH tree numberおよびその概念階層で下位の概念に含まれるタームを多く含む記事の一覧を表示。
 
 ## Parameters:
 
