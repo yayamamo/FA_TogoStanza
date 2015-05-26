@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Find Sentence From Term</title>
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <link rel="stylesheet" href="/stanza/assets/fa/css/theme.default.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    {{adjust_iframe_height_script}}
+    <script src="/stanza/assets/fa/js/jquery.tablesorter.js"></script>
+  </head>
+
+  <body>
+    <h1><a href="{{term.juri}}">{{term.ot}}</a>に関する文の一覧</h1>
+    <table id="relStcTable" class="tablesorter"><thead><tr><th>関連語</th><th>用言</th><th>文</th></tr></thead>
+    <tbody>
+    {{#each sentence}}
+    <tr><td>{{head}}</td><td>{{yogen}}</td><td><a href="http://navi.first.lifesciencedb.jp/fanavi/describe?uri={{uristc}}">{{sentence}}</td></tr>
+    {{/each}}
+    </tbody>
+    </table>
+  </body>
+  <script>
+$(function(){
+  $("#relStcTable").tablesorter();
+});
+  </script>
+</html>
