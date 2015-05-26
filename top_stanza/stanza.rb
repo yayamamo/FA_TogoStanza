@@ -1,6 +1,6 @@
 class TopStanza < TogoStanza::Stanza::Base
   property :treetop do
-    query('http://ep1.dbcls.jp:18890/sparql', <<-SPARQL.strip_heredoc)
+    query('http://ep.dbcls.jp:18890/sparql', <<-SPARQL.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 

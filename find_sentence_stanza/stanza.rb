@@ -1,5 +1,5 @@
 class FindSentenceStanza < TogoStanza::Stanza::Base
-  endpoint = 'http://ep1.dbcls.jp:18890/sparql'
+  endpoint = 'http://ep.dbcls.jp:18890/sparql'
   property :yogen do |yogen|
     yogen
   end

@@ -1,5 +1,5 @@
 class ArticleStanza < TogoStanza::Stanza::Base
-  endpoint = 'http://ep1.dbcls.jp:18890/sparql'
+  endpoint = 'http://ep.dbcls.jp:18890/sparql'
   property :keyterms do |uri|
   query(endpoint, <<-SPARQL1.strip_heredoc)
     prefix ao: <http://purl.org/ao/>

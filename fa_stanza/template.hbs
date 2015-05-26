@@ -38,10 +38,10 @@
      </ul></div>
    {{/if}}
    <table id="faTable" class="tablesorter">
-    <thead><tr><th>Concept</th><th>Count</th><th>Title</th></tr></thead>
+    <thead><tr><th>Concept</th><th>Count</th><th>Journal</th><th>PubMed ID</th><th>Title</th></tr></thead>
     <tbody>
     {{#each articles}}
-      <tr><td><a href="{{jcode}}">{{lb}}</a></td><td>{{cnt}}</td><td><a href="{{url}}">{{title}}</a></td></tr>
+      <tr><td>[<a href="/stanza/find_sentence_from_term/{{jid}}">Rel</a>] <a href="{{jcode}}">{{lb}}</a></td><td>{{cnt}}</td><td>{{jnl}}</td><td><a href="http://pubmed.gov/{{pmid}}">{{pmid}}</a></td><td><a href="{{url}}">{{title}}</a></td></tr>
     {{/each}}
     </tbody></table>
   </body>

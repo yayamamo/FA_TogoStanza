@@ -1,12 +1,14 @@
 class FaStanza < TogoStanza::Stanza::Base
-  endpoint = 'http://ep1.dbcls.jp:18890/sparql'
+  endpoint = 'http://ep.dbcls.jp:18890/sparql'
   property :articles do |cpt|
     query(endpoint, <<-SPARQL_Q1.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
+prefix dcterms: <http://purl.org/dc/terms/>
 
-select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
+#select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) ?pj
+select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) (replace(?pj, "^([^,]+).*", "$1") as ?jnl)
 {
   graph <http://purl.jp/bio/10/lsd2mesh> {
     select distinct ?jcode ?l {
@@ -24,18 +26,22 @@ select ?jcode (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url
   {
     {
       ?pd <http://purl.org/dc/terms/hasPart> ?d;
-          rdfs:label ?st.
+          dcterms:provenance ?pj;
+          rdfs:label ?st;
+          rdfs:seeAlso ?pubmed .
       BIND (?pd AS ?url)
     }
     UNION
     {
       ?d a <http://purl.org/ontology/bibo/Document>;
-         rdfs:label ?st.
+         dcterms:provenance ?pj;
+         rdfs:label ?st;
+         rdfs:seeAlso ?pubmed .
       BIND (?d AS ?url)
     }
   }
   }
-} group by ?jcode ?l ?st ?url order by desc (?cnt) offset 0 limit 200
+} group by ?jcode ?l ?st ?url ?pubmed ?pj order by desc (?cnt) offset 0 limit 200
 SPARQL_Q1
   end
 

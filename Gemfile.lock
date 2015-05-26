@@ -5,9 +5,27 @@ PATH
       togostanza
 
 PATH
+  remote: ./dependency_stanza
+  specs:
+    dependency_stanza (0.0.1)
+      togostanza
+
+PATH
   remote: ./fa_stanza
   specs:
     fa_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ./find_sentence_from_term_stanza
+  specs:
+    find_sentence_from_term_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ./find_sentence_stanza
+  specs:
+    find_sentence_stanza (0.0.1)
       togostanza
 
 PATH
@@ -20,6 +38,12 @@ PATH
   remote: ./top_stanza
   specs:
     top_stanza (0.0.1)
+      togostanza
+
+PATH
+  remote: ./yogen_stanza
+  specs:
+    yogen_stanza (0.0.1)
       togostanza
 
 GEM
@@ -105,8 +129,12 @@ PLATFORMS
 
 DEPENDENCIES
   article_stanza!
+  dependency_stanza!
   fa_stanza!
+  find_sentence_from_term_stanza!
+  find_sentence_stanza!
   gene_feature_stanza!
   togostanza
   top_stanza!
   unicorn
+  yogen_stanza!
