@@ -17,7 +17,7 @@ WHERE {
     ?p "#{kakuhead}" ;
     <http://purl.org/dc/terms/isPartOf> ?stc .
   ?stc rdfs:label ?l .
-  ?p a <http://navi.first.lifesciencedb.jp/nlp/joshi> .
+  ?p a <http://navi.first.lifesciencedb.jp/nlp/Joshi> .
 }
 SPARQL_Q1
   end

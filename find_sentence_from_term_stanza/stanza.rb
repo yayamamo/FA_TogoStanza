@@ -9,10 +9,10 @@ PREFIX doco: <http://purl.org/spar/doco/>
 PREFIX nlp: <http://navi.first.lifesciencedb.jp/nlp/>
 PREFIX lsd: <http://purl.jp/bio/10/lsd/term/>
 
-SELECT distinct (str(?h) as ?head) (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
+SELECT distinct ?head (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
 FROM <http://purl.jp/bio/10/lsd2fa>
 WHERE {
-  ?p a nlp:joshi .
+  ?p a nlp:Joshi .
   ?stc ^dcterms:isPartOf [
     ?p ?h ;
     nlp:yogen ?y ] ;
@@ -21,10 +21,11 @@ WHERE {
       ^ao:context/ao:hasTopic ?jid ] ;
     rdfs:label ?l .
   ?y rdfs:label ?yl .
-  FILTER(contains(?o, ?h) || contains(?h, ?o))
+  FILTER(contains(?o, ?head) || contains(?head, ?o))
   #VALUES ?h {"kakuhead"}
   #VALUES ?y {nlp:yogen}
   VALUES ?jid {lsd:#{jid}}
+  BIND(str(?h) AS ?head)
 }
 SPARQL_Q1
   end
