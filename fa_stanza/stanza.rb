@@ -8,7 +8,8 @@ prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 prefix dcterms: <http://purl.org/dc/terms/>
 
 #select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) ?pj
-select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) (replace(?pj, "^([^,]+).*", "$1") as ?jnl)
+#select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) (replace(?pj, "^([^,]+).*", "$1") as ?jnl)
+select (encode_for_uri(?jcode) as ?encoded_jcode) (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?title) (count(?url) as ?cnt) ?url (substr(str(?pubmed),36) as ?pmid) (replace(?pj, "^([^,]+).*", "$1") as ?jnl)
 {
   graph <http://purl.jp/bio/10/lsd2mesh> {
     select distinct ?jcode ?l {
@@ -45,6 +46,7 @@ select ?jcode (substr(str(?jcode),32) as ?jid) (str(?l) as ?lb) (str(?st) as ?ti
 SPARQL_Q1
   end
 
+# 現在表示している概念の取得
   property :concept do |cpt|
     result = query(endpoint, <<-SPARQL_Q2.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -62,29 +64,32 @@ SPARQL_Q2
     result.first
   end
 
+# 下位概念の取得
   property :children do |cpt|
     query(endpoint, <<-SPARQL_Q3.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix lsd: <http://purl.jp/bio/10/lsd/ontology/201209#>
 
-select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",?concept) AS ?parent) {
-  graph <http://purl.jp/bio/10/lsd2mesh>
-  {
-    ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
-    [] owl:sameAs/rdfs:subClassOf ?upper ;
-       rdfs:label ?l .
-    ?jcode lsd:MeSHUniqueID/owl:sameAs/rdfs:subClassOf+ ?upper .
-    BIND(substr(str(?upper),28) AS ?concept)
-    FILTER(contains(?concept,".") && lang(?l) = "ja")
+select distinct (str(?l) AS ?jcpt) (concat("/stanza/fa/",?concept) AS ?parent) (count(?jcode) AS ?jc) {
+  graph <http://purl.jp/bio/10/lsd2mesh> {
+    select distinct * {
+      ?upper rdfs:subClassOf <http://bioonto.de/mesh.owl##{cpt}> .
+      [] owl:sameAs/rdfs:subClassOf ?upper ;
+        rdfs:label ?l .
+      ?jcode lsd:MeSHUniqueID/owl:sameAs/rdfs:subClassOf+ ?upper .
+      BIND(substr(str(?upper),28) AS ?concept)
+      FILTER(contains(?concept,".") && lang(?l) = "ja")
+    }
   }
   graph <http://purl.jp/bio/10/lsd2fa> {
     [] <http://purl.org/ao/hasTopic> ?jcode .
   }
-} ORDER BY ?upper
+} ORDER BY desc(?jc)
 SPARQL_Q3
   end
 
+# トップ概念からのパスの取得
   property :ancestor do |cpt|
     query(endpoint, <<-SPARQL_Q4.strip_heredoc)
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>

@@ -22,7 +22,7 @@
    <h1>{{concept.jcpt}}<sup><a href="{{concept.dmh}}">*</a></sup> [{{current}}]</h1>
    <div id="cptancestor">
    {{#each ancestor}}
-   <a href="{{ac}}">{{lb}}</a> > 
+   <a href="{{ac}}">{{lb}}</a> &gt; 
    {{/each}}
    {{#if ancestor}}
      {{concept.jcpt}}
@@ -33,15 +33,15 @@
    {{#if children}}
      <div id="cptchild"><ul>
      {{#each children}}
-       <li><a href="{{parent}}">{{jcpt}}</a></li>
+       <li><a href="{{parent}}">{{jcpt}}</a> ({{jc}})</li>
      {{/each}}
      </ul></div>
    {{/if}}
    <table id="faTable" class="tablesorter">
-    <thead><tr><th>Concept</th><th>Count</th><th>Journal</th><th>PubMed ID</th><th>Title</th></tr></thead>
+    <thead><tr><th>Concept</th><th>Relation</th><th>Count</th><th>Journal</th><th>PubMed ID</th><th>Title</th></tr></thead>
     <tbody>
     {{#each articles}}
-      <tr><td>[<a href="/stanza/find_sentence_from_term/{{jid}}">Rel</a>] <a href="{{jcode}}">{{lb}}</a></td><td>{{cnt}}</td><td>{{jnl}}</td><td><a href="http://pubmed.gov/{{pmid}}">{{pmid}}</a></td><td><a href="{{url}}">{{title}}</a></td></tr>
+      <tr><td><a href="/fanavi/describe?uri={{encoded_jcode}}">{{lb}}</a></td><td><a href="/stanza/find_sentence_from_term/{{jid}}">関連文</a></td><td>{{cnt}}</td><td>{{jnl}}</td><td><a href="http://pubmed.gov/{{pmid}}">{{pmid}}</a></td><td><a href="{{url}}">{{title}}</a></td></tr>
     {{/each}}
     </tbody></table>
   </body>

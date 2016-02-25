@@ -18,7 +18,7 @@
     <table id="relStcTable" class="tablesorter"><thead><tr><th>関連語</th><th>用言</th><th>文</th></tr></thead>
     <tbody>
     {{#each sentence}}
-    <tr><td>{{head}}</td><td>{{yogen}}</td><td><a href="http://navi.first.lifesciencedb.jp/fanavi/describe?uri={{uristc}}">{{sentence}}</td></tr>
+    <tr><td><a href="/fanavi/describe?uri={{encoded_token_uri}}">{{lsdja}}</a></td><td>{{yogen}}</td><td><a href="http://navi.first.lifesciencedb.jp/fanavi/describe?uri={{uristc}}">{{sentence}}</td></tr>
     {{/each}}
     </tbody>
     </table>

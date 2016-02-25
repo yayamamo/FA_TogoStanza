@@ -9,23 +9,23 @@ PREFIX doco: <http://purl.org/spar/doco/>
 PREFIX nlp: <http://navi.first.lifesciencedb.jp/nlp/>
 PREFIX lsd: <http://purl.jp/bio/10/lsd/term/>
 
-SELECT distinct ?head (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
-FROM <http://purl.jp/bio/10/lsd2fa>
+SELECT distinct (str(?lsd) as ?lsdja) (ENCODE_FOR_URI(?token_uri) as ?encoded_token_uri) (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
 WHERE {
-  ?p a nlp:Joshi .
-  ?stc ^dcterms:isPartOf [
-    ?p ?h ;
-    nlp:yogen ?y ] ;
-    ^doco:isContainedBy [
-      aos:exact ?o ;
-      ^ao:context/ao:hasTopic ?jid ] ;
-    rdfs:label ?l .
-  ?y rdfs:label ?yl .
-  FILTER(contains(?o, ?head) || contains(?head, ?o))
-  #VALUES ?h {"kakuhead"}
-  #VALUES ?y {nlp:yogen}
-  VALUES ?jid {lsd:#{jid}}
-  BIND(str(?h) AS ?head)
+  GRAPH <http://purl.jp/bio/10/lsd2fa> {
+    ?p a nlp:Joshi .
+    ?stc ^dcterms:isPartOf [
+      ?p ?token_uri;
+      nlp:yogen ?y ];
+      ^doco:isContainedBy [
+        aos:exact ?annot ;
+        ^ao:context/ao:hasTopic ?jid ];
+      rdfs:label ?l .
+    ?y rdfs:label ?yl .
+    VALUES ?jid {lsd:#{jid}} }
+  GRAPH <http://purl.jp/bio/10/lsd2mesh>{
+    ?token_uri rdfs:label ?lsd.
+  }
+  FILTER(lang(?lsd)="ja" && (contains(?annot, ?lsd) || contains(?lsd, ?annot)))
 }
 SPARQL_Q1
   end
@@ -49,3 +49,39 @@ SPARQL_Q2
   end
 
 end
+=begin
+SELECT distinct ?head (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
+FROM <http://purl.jp/bio/10/lsd2fa>
+WHERE {
+  ?p a nlp:Joshi .
+  ?stc ^dcterms:isPartOf [
+    ?p ?h ;
+    nlp:yogen ?y ] ;
+    ^doco:isContainedBy [
+      aos:exact ?o ;
+      ^ao:context/ao:hasTopic ?jid ] ;
+    rdfs:label ?l .
+  ?y rdfs:label ?yl .
+  FILTER(contains(?o, ?head) || contains(?head, ?o))
+  #VALUES ?h {"kakuhead"}
+  #VALUES ?y {nlp:yogen}
+  VALUES ?jid {lsd:#{jid}}
+  BIND(str(?h) AS ?head)
+}
+=end
+
+=begin
+SELECT distinct (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
+FROM <http://purl.jp/bio/10/lsd2fa> 
+WHERE {
+  ?p a nlp:Joshi .
+  ?stc ^dcterms:isPartOf [
+    ?p ?jid ;
+    nlp:yogen ?y ];
+    ^doco:isContainedBy [
+      ^ao:context/ao:hasTopic ?jid ];
+    rdfs:label ?l .
+  ?y rdfs:label ?yl .
+  VALUES ?jid {lsd:#{jid}}
+}
+=end
