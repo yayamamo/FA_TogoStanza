@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Dependency</title>
+    {{#each css_uri}}
+    <link rel="stylesheet" href="{{this}}" />
+    {{/each}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars.runtime-v3.0.0.js"></script>
+    {{adjust_iframe_height_script}}
+  </head>
+
+  <body>
+    <h1>用言一覧</h1>
+    <table>
+    {{#each list}}
+    <tr><td><a href="/stanza/dependency?yogen={{label}}">{{label}}</a></td><td>{{ycount}}</td></tr>
+    {{/each}}
+    </table>
+  </body>
+  <script type="text/javascript">
+    Handlebars.registerHelper('encode', function(t) {
+      return encodeURIComponent(t);
+    });
+  </script>
+</html>
