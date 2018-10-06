@@ -1,47 +1,47 @@
 PATH
-  remote: ./article_stanza
+  remote: article_stanza
   specs:
     article_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./dependency_stanza
+  remote: dependency_stanza
   specs:
     dependency_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./fa_stanza
+  remote: fa_stanza
   specs:
     fa_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./find_sentence_from_term_stanza
+  remote: find_sentence_from_term_stanza
   specs:
     find_sentence_from_term_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./find_sentence_stanza
+  remote: find_sentence_stanza
   specs:
     find_sentence_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./gene_feature_stanza
+  remote: gene_feature_stanza
   specs:
     gene_feature_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./top_stanza
+  remote: top_stanza
   specs:
     top_stanza (0.0.1)
       togostanza
 
 PATH
-  remote: ./yogen_stanza
+  remote: yogen_stanza
   specs:
     yogen_stanza (0.0.1)
       togostanza
@@ -138,3 +138,6 @@ DEPENDENCIES
   top_stanza!
   unicorn
   yogen_stanza!
+
+BUNDLED WITH
+   1.14.4

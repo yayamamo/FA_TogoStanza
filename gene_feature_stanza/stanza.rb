@@ -1,7 +1,7 @@
 class GeneFeatureStanza < TogoStanza::Stanza::Base
 
   property :features do |uri|
-    query('http://ep1:8890/sparql', <<-SPARQL.strip_heredoc)
+    query('http://ep.dbcls.jp:18890/sparql', <<-SPARQL.strip_heredoc)
       SELECT *
       {
         {<#{uri}> ?p ?o }
