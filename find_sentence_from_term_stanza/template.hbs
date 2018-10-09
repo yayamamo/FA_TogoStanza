@@ -15,10 +15,10 @@
 
   <body>
     <h1><a href="{{term.juri}}">{{term.ot}}</a>に関する文の一覧</h1>
-    <table id="relStcTable" class="tablesorter"><thead><tr><th>関連語</th><th>用言</th><th>文</th></tr></thead>
+    <table id="relStcTable" class="tablesorter"><thead><tr><th>関連語</th><th>格</th><th>用言</th><th>文</th></tr></thead>
     <tbody>
     {{#each sentence}}
-    <tr><td><a href="/fanavi/describe?uri={{encoded_token_uri}}">{{lsdja}}</a></td><td>{{yogen}}</td><td><a href="http://navi.first.lifesciencedb.jp/fanavi/describe?uri={{uristc}}">{{sentence}}</td></tr>
+    <tr><td><a href="/fanavi/describe?uri={{encoded_token_uri}}">{{lsdja}}</a></td><td>{{case}}</td><td>{{yogen}}</td><td><a href="http://navi.first.lifesciencedb.jp/fanavi/describe?uri={{uristc}}">{{sentence}}</td></tr>
     {{/each}}
     </tbody>
     </table>

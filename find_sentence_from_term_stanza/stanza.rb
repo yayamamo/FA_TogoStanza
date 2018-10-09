@@ -9,10 +9,9 @@ PREFIX doco: <http://purl.org/spar/doco/>
 PREFIX nlp: <http://navi.first.lifesciencedb.jp/nlp/>
 PREFIX lsd: <http://purl.jp/bio/10/lsd/term/>
 
-SELECT distinct (str(?lsd) as ?lsdja) (ENCODE_FOR_URI(?token_uri) as ?encoded_token_uri) (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
+SELECT distinct (str(?lsd) as ?lsdja) ?case (ENCODE_FOR_URI(?token_uri) as ?encoded_token_uri) (str(?yl) as ?yogen) (encode_for_uri(?stc) as ?uristc) (str(?l) as ?sentence)
 WHERE {
   GRAPH <http://purl.jp/bio/10/lsd2fa> {
-    ?p a nlp:Joshi .
     ?stc ^dcterms:isPartOf [
       ?p ?token_uri;
       nlp:yogen ?y ];
@@ -20,6 +19,7 @@ WHERE {
         aos:exact ?annot ;
         ^ao:context/ao:hasTopic ?jid ];
       rdfs:label ?l .
+    ?p rdfs:label ?case .
     ?y rdfs:label ?yl .
     VALUES ?jid {lsd:#{jid}} }
   GRAPH <http://purl.jp/bio/10/lsd2mesh>{
